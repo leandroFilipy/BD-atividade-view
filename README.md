@@ -1,88 +1,76 @@
-🏭 Sistema de Gerenciamento de Dados – Views, Procedures e Triggers em SQL
-Este projeto documenta a criação de views (visões personalizadas de tabelas), stored procedures (procedimentos armazenados) e triggers (gatilhos automáticos) em um banco de dados simulado chamado factory. O objetivo é garantir uma melhor visualização, organização e integridade dos dados em uma empresa fictícia.
+# 🏨 Sistema de Reserva de Hotel – Casos de Uso
 
-📄 Descrição Geral
-O sistema simula a base de dados de uma empresa industrial com múltiplas tabelas relacionadas: SALES, SUPPLIERS, CLIENTS, PRODUCTS e FUNCIONARIOS.
+Este projeto apresenta o **Diagrama de Casos de Uso** de um sistema para gerenciamento de reservas em um hotel. Seu objetivo é mapear as funcionalidades principais e as interações entre os diferentes perfis de usuário e componentes do sistema.
 
-Para otimizar o uso dessas tabelas, foram implementadas:
+---
 
-Views para facilitar consultas específicas
+## 📋 Descrição Geral
 
-Stored Procedures para padronizar inserções
+O sistema permite que clientes realizem **pesquisas de quartos, reservas e pagamentos**, enquanto **recepcionistas** e **administradores** cuidam da parte operacional e administrativa do hotel. O diagrama segue os padrões UML para organizar esses fluxos.
 
-Triggers para garantir a integridade dos dados entre tabelas relacionadas
+---
 
-👁️ Views Criadas
-🔹 view_sales_informations
-📌 Mostra sales_date, sales_total e who_bought da tabela SALES
+## 👥 Atores Envolvidos
 
-🎯 Filtra apenas vendas com SALE_ID > 4
+### 🎭 Atores Primários
 
-📈 Útil para análises de vendas mais recentes
+#### 🧑‍💻 Usuário *(ator genérico)*
+- Ponto de herança para: Cliente, Recepcionista e Administrador.
+- Permissão: Login no sistema.
 
-🔹 visualização_suppliers
-📌 Exibe namee e address da tabela SUPPLIERS
+#### 👤 Cliente
+- Pesquisar quartos
+- Realizar reserva (`<<extend>>` da pesquisa)
+- Efetuar pagamento (`<<include>>` na reserva)
+- Cancelar reserva se não houver pagamento (`<<extend>>`)
 
-🎯 Mostra apenas fornecedores com SUPPLIERS_ID <= 5
+#### 🧑‍💼 Administrador
+- Configurar o sistema
+- Gerenciar cadastros
+- Acessar relatórios
+- Gerenciar quartos
 
-🧾 Facilita a listagem de fornecedores fixos
+#### 🛎️ Recepcionista
+- Gerenciar reservas:
+  - Fazer check-in *(especialização)*
+  - Fazer check-out *(especialização)*
+  - Cancelar reservas *(especialização)*
 
-🔹 visualização_clientes
-📌 Mostra CLIENTS_ID e CLIENTS_NAME
+### 🔌 Atores Secundários
 
-🎯 Exibe apenas clientes com CLIENTS_ID > 3
+- **📦 Banco de Dados**: Armazena relatórios, registros e cadastros.
+- **💳 API de Pagamentos**: Responsável pelo processamento financeiro das reservas.
 
-👤 Ideal para consultas de clientes mais recentes
+---
 
-🔹 visualização_produtos
-📌 Apresenta name_products e price da tabela PRODUCTS
+## 🔗 Relações Entre Casos de Uso
 
-🎯 Considera apenas produtos com ID_PRODUCTS >= 3
+- `<<include>>` → Representa ações **obrigatórias** (ex: pagamento é parte da reserva).
+- `<<extend>>` → Representa ações **opcionais ou condicionais** (ex: cancelamento por falta de pagamento).
+- **Herança entre Atores** → Usuário é base para Cliente, Administrador e Recepcionista.
+- **Generalização de Casos** → Gerenciar reservas se desdobra em check-in, check-out e cancelamento.
 
-🛒 Permite rápida visualização dos produtos principais
+---
 
-⚙️ Stored Procedures Criadas
-✅ Manipulação_Funcionarios
-🏢 Insere dados na tabela FUNCIONARIOS
+## 🧭 Estrutura do Diagrama
 
-🧾 Campos utilizados: nome_funcionario, cargo, data_contratação
+- Baseado nos padrões da **UML (Unified Modeling Language)**.
+- Identificação clara dos fluxos e permissões.
+- Separação entre usuários humanos e sistemas externos.
 
-💡 Útil para cadastrar novos funcionários de forma padronizada
+---
 
-✅ Inserção_de_Produtos
-📦 Insere dados na tabela PRODUCTS
+## 👨‍💻 Autores
 
-🧾 Campos utilizados: name_products, description_product, price, size
+- Daniel Vinicius Rios Sismer  
+- Leandro Filipy de Lima  
+- José Azarías Pérez Torres  
 
-🚀 Agiliza o cadastro de novos produtos no sistema
+---
 
-🚨 Trigger Implementada
-🔁 adicionar_supplier
-🧩 Executada antes da exclusão de um registro em SUPPLIERS
+## 📄 Licença
 
-❗ Deleta todos os produtos relacionados ao fornecedor excluído
+Este projeto foi desenvolvido com fins **educacionais**, podendo ser reutilizado e adaptado livremente para estudos e protótipos de sistemas similares.
 
-🔒 Garante integridade referencial entre SUPPLIERS e PRODUCTS
+---
 
-🧠 Organização Técnica
-As operações seguem princípios de boas práticas SQL:
-
-🔐 Chaves estrangeiras e relacionamentos
-
-✅ Auto incremento em chaves primárias
-
-🔄 Atualizações em cascata para integridade
-
-📊 Criação de views com critérios de filtro
-
-📌 Procedimentos reutilizáveis para inserções padrão
-
-⚠️ Triggers para consistência entre registros vinculados
-
-👨‍💻 Desenvolvido por
-🧑‍💻 Leandro Filipy de Lima
-
-
-
-📋 Licença
-Este projeto foi desenvolvido com fins educacionais, podendo ser reutilizado e adaptado para portfólios, exercícios acadêmicos ou simulações de sistemas reais.
